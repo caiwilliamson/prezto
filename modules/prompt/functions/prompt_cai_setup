@@ -1,0 +1,40 @@
+function prompt_cai_setup {
+  setopt LOCAL_OPTIONS
+  unsetopt XTRACE KSH_ARRAYS
+  prompt_opts=(cr percent sp subst)
+
+  NEWLINE=$'\n'
+  PROMPT='${NEWLINE}%B%F{cyan}%n%f at %F{cyan}%m%f in %F{cyan}%c%f $(git_prompt_info)>%b '
+}
+
+git_prompt_info() {
+  # Check if we are inside a git repo.
+  git rev-parse --is-inside-work-tree &>/dev/null || return
+  echo "(git:$(current_git_branch) $(git_dirty)) "
+}
+
+# Return the current branch name.
+current_git_branch() {
+  git symbolic-ref --short -q HEAD
+}
+
+# Return a cross (dirty repo) or check mark (clean repo).
+git_dirty() {
+  test -z "$(command git status --porcelain --ignore-submodules -unormal)"
+  if [[ $? -eq 1 ]]; then
+    echo '%F{red}✘%f'
+  else
+    echo '%F{green}✔︎%f'
+  fi
+}
+
+function prompt_cai_preview {
+  local +h PROMPT=''
+  local +h RPROMPT=''
+  local +h SPROMPT=''
+
+  editor-info 2> /dev/null
+  prompt_preview_theme 'cai'
+}
+
+prompt_cai_setup "$@"
