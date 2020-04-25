@@ -13,3 +13,8 @@ fi
 # Customize to your needs...
 
 export LSCOLORS=ExfxcxdxbxGxDxabagacad
+
+# Initialise rbenv if it's installed.
+if [[ $(command -v rbenv) ]]; then
+  eval "$(rbenv init -)"
+fi
