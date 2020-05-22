@@ -14,6 +14,7 @@ fi
 # Customize to your needs...
 
 export LSCOLORS=ExfxcxdxbxGxDxabagacad
+export HISTFILE=${ZDOTDIR:-$HOME}/.zhistory
 
 # Initialise rbenv if it's installed.
 if [[ $(command -v rbenv) ]]; then
